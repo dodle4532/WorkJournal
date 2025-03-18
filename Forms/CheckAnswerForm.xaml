@@ -1,0 +1,22 @@
+﻿<Window x:Class="WorkJournal.Forms.CheckAnswerForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkJournal.Forms"
+        mc:Ignorable="d"
+        Title="CheckAnswerPage" Height="484.615" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Выберите ответ" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="86,24,0,0" VerticalAlignment="Top" Height="30" Width="163" FontSize="16"/>
+        <ComboBox x:Name="answ_id_comboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="271,24,0,0" VerticalAlignment="Top" Width="130" Height="30" SelectionChanged="doc_Id_ComboBox_SelectionChanged" FontSize="20"/>
+        <Label Content="Текст ответа" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="86,85,0,0" VerticalAlignment="Top" Height="30" Width="141" FontSize="16"/>
+        <TextBox x:Name="answerTextBox" HorizontalAlignment="Left" Height="145" Margin="271,92,0,0" TextWrapping="Wrap" IsEnabled="False" Text="" VerticalAlignment="Top" Width="320" FontSize="16"/>
+        <Grid x:Name="decisionGrid" HorizontalAlignment="Left" Height="178" Margin="10,242,0,0" VerticalAlignment="Top" Width="774">
+            <Button x:Name="acceptButton" Content="Принять" HorizontalAlignment="Left" Margin="625,114,0,0" VerticalAlignment="Top" Width="121" Height="54" Click="acceptButton_Click" RenderTransformOrigin="1.007,0.581"/>
+            <Button x:Name="declineButton" Content="Отклонить" HorizontalAlignment="Left" Margin="29,114,0,0" VerticalAlignment="Top" Width="121" Height="54" Click="declineButton_Click"/>
+            <Label Content="Комментарий" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="96,46,0,0" VerticalAlignment="Top" Height="30" Width="141" FontSize="16"/>
+            <TextBox x:Name="commentTextBox" HorizontalAlignment="Left" Height="63" Margin="265,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="315" FontSize="16"/>
+        </Grid>
+
+    </Grid>
+</Window>

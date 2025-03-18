@@ -1,0 +1,59 @@
+﻿<Window x:Class="WorkJournal.Forms.JournalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkJournal.Forms"
+        mc:Ignorable="d"
+        Title="JournalWindow" WindowState="Maximized" Height="760.2" Width="1096.079">
+    <Grid>
+        <Menu x:Name="menu" HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top" >
+            <Menu.ContextMenu>
+                <ContextMenu/>
+            </Menu.ContextMenu>
+            <MenuItem Header="Файл" ></MenuItem>
+            <MenuItem Header="Редактировать"></MenuItem>
+        </Menu>
+        <DataGrid x:Name="dataGrid" CanUserAddRows="False" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,22,-0.4,0"  VerticalAlignment="Stretch" FontSize="16" ItemsSource="{Binding RequestData}">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding RowBackground}"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                <DataGridTextColumn Header="Id вопроса" Binding="{Binding QuestionId}"/>
+                <DataGridTextColumn Header="№П/П" Binding="{Binding DocId}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Department}"/>
+                <DataGridTextColumn Header="Вопрос" Binding="{Binding Question}" MaxWidth="300">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Question}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Технолог" Binding="{Binding Technologist}"/>
+                <DataGridTextColumn Header="Время вопроса" Binding="{Binding QuestionTime}"/>
+                <DataGridTextColumn Header="Конструктор" Binding="{Binding Constructor}"/>
+                <DataGridTextColumn Header="Ответ" Binding="{Binding Answer}" MaxWidth="300">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Answer}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Время ответа" Binding="{Binding AnswerTime}"/>
+                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" MaxWidth="300"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
