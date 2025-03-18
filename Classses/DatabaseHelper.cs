@@ -180,7 +180,6 @@ namespace WorkJournal.Classses
                                         "order by r.id", 11);
         }
 
-
         private void SentRequestToDatabase(string query)
         {
             try
