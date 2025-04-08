@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WorkJournal.Classses;
-
+using MenuItem = System.Windows.Controls.MenuItem;
+using MessageBox = System.Windows.MessageBox;
+using Window = System.Windows.Window;
 
 namespace WorkJournal.Forms
 {
@@ -25,7 +21,7 @@ namespace WorkJournal.Forms
         public string Status { get; set; }
         public string Department { get; set; }
         public string Question { get; set; }
-        public string Technologist { get; set; }
+        public string Technolog { get; set; }
         public string QuestionTime { get; set; }
         public string Constructor { get; set; }
         public string Answer { get; set; }
@@ -44,6 +40,7 @@ namespace WorkJournal.Forms
         public ObservableCollection<RequestData> RequestData { get; set; }
 
         private string userName;
+        DatabaseHelper databaseHelper;
         private List<int> markedIndex;
         public List<string> getMenuItems(string userType)
         {
@@ -57,10 +54,6 @@ namespace WorkJournal.Forms
                 result.Add("Добавить запрос");
                 result.Add("Принять ответ");
             }
-            if (userType == "constructor")
-            {
-                result.Add("Добавить ответ");
-            }
             return result;
         }
 
@@ -70,40 +63,45 @@ namespace WorkJournal.Forms
             InitializeComponent();
             markedIndex = new List<int>();
             this.userName = userName;
-            DatabaseHelper databaseHelper = new DatabaseHelper();
-            List<List<string>> data = databaseHelper.GetFullData();
+            databaseHelper = new DatabaseHelper();
 
             List<string> menuItems = getMenuItems(userType);
+            MenuItem saveItem = new MenuItem();
+            saveItem.Header = "Сохранить";
+            saveItem.Click += Save;
             MenuItem exitItem = new MenuItem();
             exitItem.Header = "Выйти";
             exitItem.Click += Relogin;
             MenuItem firstMenuItem = (MenuItem)menu.Items[0];
+            firstMenuItem.Items.Add(saveItem);
             firstMenuItem.Items.Add(exitItem);
+            FillData();
+            this.DataContext = this;
 
-            MenuItem newItem = new MenuItem();
-            newItem.Header = menuItems[0];
-            MenuItem secondMenuItem = (MenuItem)menu.Items[1];
-            if (userType == "technolog")
-            {
-                newItem.Click += ShowCreateQuestionPage;
-                secondMenuItem.Items.Add(newItem);
-                MenuItem secondNewItem = new MenuItem();
-                secondNewItem.Header = menuItems[1];
-                secondNewItem.Click += ShowCheckAnswerPage;
-                secondMenuItem.Items.Add(secondNewItem);
-            }
             if (userType == "constructor")
             {
-                newItem.Click += ShowAddAnswerPage;
-                secondMenuItem.Items.Add(newItem);
+                menu.Items.Remove(menu.Items[1]);
             }
-            if (userType == "admin")
-            {
-                newItem.Click += ShowChangeStatusPage;
-                secondMenuItem.Items.Add(newItem);
+            else {
+                MenuItem newItem = new MenuItem();
+                newItem.Header = menuItems[0];
+                MenuItem secondMenuItem = (MenuItem)menu.Items[1];
+                if (userType == "technolog")
+                {
+                    newItem.Click += ShowCreateQuestionPage;
+                    secondMenuItem.Items.Add(newItem);
+                }
+                if (userType == "admin")
+                {
+                    newItem.Click += ShowChangeStatusPage;
+                    secondMenuItem.Items.Add(newItem);
+                }
             }
+        }
 
-
+        public void FillData()
+        {
+            List<List<string>> data = databaseHelper.GetFullData();
             ObservableCollection<RequestData> requestDataCollection = new ObservableCollection<RequestData>();
             int index = 1;
             foreach (var row in data)
@@ -118,14 +116,18 @@ namespace WorkJournal.Forms
                         DocId = row[2],
                         Department = row[3],
                         Question = row[4],
-                        Technologist = row[5],
+                        Technolog = row[5],
                         QuestionTime = row[6],
                         Constructor = row[7],
                         Answer = row[8],
                         AnswerTime = row[9],
                         Comment = row[10]
                     };
-                    if (row[5] == userName || row[7] == userName)
+                    if (databaseHelper.GetUserType(userName) == "admin")
+                    {
+                        requestData.RowBackground = Brushes.White;
+                    }
+                    else if (row[5] == userName || row[7] == userName || row[3] == databaseHelper.GetDepName(databaseHelper.GetDep_idFromUserName(userName)))
                     {
                         requestData.RowBackground = Brushes.Yellow;
                     }
@@ -150,25 +152,13 @@ namespace WorkJournal.Forms
 
         private void ShowCreateQuestionPage(object sender, RoutedEventArgs e)
         {
-            AddQuestionForm addQuestionForm = new AddQuestionForm(userName);
+            AddQuestionForm addQuestionForm = new AddQuestionForm(userName, this);
             addQuestionForm.Topmost = false;
-        }
-
-        private void ShowAddAnswerPage(object sender, RoutedEventArgs e)
-        {
-            AddAnswerForm addAnswerForm = new AddAnswerForm(userName);
-            addAnswerForm.Topmost = false;
-        }
-
-        private void ShowCheckAnswerPage(object sender, RoutedEventArgs e)
-        {
-            CheckAnswerForm checkAnswerForm = new CheckAnswerForm(userName);
-            checkAnswerForm.Topmost = false;
         }
 
         private void ShowChangeStatusPage(object sender, RoutedEventArgs e)
         {
-            ChangeStatusForm changeStatusForm = new ChangeStatusForm();
+            ChangeStatusForm changeStatusForm = new ChangeStatusForm(this);
             changeStatusForm.Topmost = false;
         }
 
@@ -177,6 +167,99 @@ namespace WorkJournal.Forms
             MainWindow w = new MainWindow();
             Close();
             return;
+        }
+
+        private void Save(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = "WorkJournal";
+            saveFileDialog.DefaultExt = ".xlsx";
+            saveFileDialog.Filter = "Excel Files|*.xlsx";
+            saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            saveFileDialog.Title = "Выберите место для сохранения файла";
+
+            DialogResult result = saveFileDialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+
+                Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+                Workbook workbook = excelApp.Workbooks.Add();
+                Worksheet worksheet = (Worksheet)workbook.Sheets[1];
+
+               
+                for (int j = 0; j < dataGrid.Columns.Count; j++)
+                {
+                    Range myRange = (Range)worksheet.Cells[1, j + 1];
+                    myRange.Value2 = dataGrid.Columns[j].Header;
+                }
+
+               
+                for (int i = 0; i < dataGrid.Items.Count; i++)
+                {
+                    for (int j = 0; j < dataGrid.Columns.Count; j++)
+                    {
+                        TextBlock b = dataGrid.Columns[j].GetCellContent(dataGrid.Items[i]) as TextBlock;
+                        if (b != null)
+                        {
+                            Range myRange = (Range)worksheet.Cells[i + 2, j + 1];
+                            myRange.Value2 = b.Text;
+                        }
+                    }
+                }
+
+                Range columnRange = worksheet.UsedRange.Columns;
+                columnRange.AutoFit();
+
+               
+                try
+                {
+                    workbook.SaveAs(filePath);
+                    excelApp.Quit();
+                    MessageBox.Show("Сохранено успешно", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                   
+                    ReleaseObject(worksheet);
+                    ReleaseObject(workbook);
+                    ReleaseObject(excelApp);
+                }
+            }
+        }
+
+        private static void ReleaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                System.Windows.MessageBox.Show("Exception occurred while releasing object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
+
+        private void MyDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            e.Cancel = true; // Отменяем начало редактирования
+            DataGridRow row = e.Row;
+            RequestData requestData = (RequestData)row.Item;
+            dataGrid.SelectedItem = null;
+            // Получаем объект данных из DataContext строки
+            QuestionChangeForm questionChangeForm = new QuestionChangeForm(requestData, userName, this);
         }
     }
 }

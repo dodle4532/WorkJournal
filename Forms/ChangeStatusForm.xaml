@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="ChangeStatusForm" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="Выберите вопрос" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="237,76,0,0" VerticalAlignment="Top" Height="30" Width="163" FontSize="16"/>
-        <ComboBox x:Name="questionComboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="422,76,0,0" VerticalAlignment="Top" Width="130" Height="30" FontSize="20" RenderTransformOrigin="0.44,5.227"/>
-        <Label Content="Новый статус" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="237,222,0,0" VerticalAlignment="Top" Height="30" Width="163" FontSize="16"/>
-        <ComboBox x:Name="statusComboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="422,222,0,0" VerticalAlignment="Top" Width="130" Height="30" FontSize="20" RenderTransformOrigin="0.44,5.227"/>
-        <Button x:Name="okButton" Content="Ok" HorizontalAlignment="Left" Margin="329,326,0,0" VerticalAlignment="Top" Width="128" Height="48" Click="okButton_Click"/>
+        <Label Content="Выберите вопрос" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="174,61,0,0" VerticalAlignment="Top" Height="66" Width="185" FontSize="20" FontWeight="Bold"/>
+        <ComboBox x:Name="questionComboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="458,82,0,0" VerticalAlignment="Top" Width="130" Height="30" FontSize="20" RenderTransformOrigin="0.44,5.227"/>
+        <Label Content="Новый статус" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="174,192,0,0" VerticalAlignment="Top" Height="42" Width="168" FontSize="20" FontWeight="Bold"/>
+        <ComboBox x:Name="statusComboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="458,204,0,0" VerticalAlignment="Top" Width="130" Height="30" FontSize="20" RenderTransformOrigin="0.44,5.227"/>
+        <Button x:Name="okButton" Content="Ок" HorizontalAlignment="Left" Margin="329,326,0,0" VerticalAlignment="Top" Width="128" Height="48" Click="okButton_Click" FontSize="20" FontWeight="Bold"/>
 
     </Grid>
 </Window>

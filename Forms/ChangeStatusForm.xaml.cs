@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WorkJournal.Classses;
 
 namespace WorkJournal.Forms
@@ -21,12 +10,14 @@ namespace WorkJournal.Forms
     public partial class ChangeStatusForm : Window
     {
         private DatabaseHelper databaseHelper;
-        public ChangeStatusForm()
+        private JournalWindow journalWindow;
+        public ChangeStatusForm(JournalWindow journalWindow)
         {
             InitializeComponent();
+            this.journalWindow = journalWindow;
             databaseHelper = new DatabaseHelper();
             List<string> requests = databaseHelper.GetAllRequests_id();
-            foreach(string req in requests)
+            foreach (string req in requests)
             {
                 questionComboBox.Items.Add(req);
             }
@@ -41,13 +32,13 @@ namespace WorkJournal.Forms
             string selectedRequest = questionComboBox.SelectedItem.ToString();
             if (selectedRequest == "")
             {
-                MessageBox.Show("Выберите вопрос");
+                MessageBox.Show("Выберите вопрос", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             string selectedStatus = statusComboBox.SelectedItem.ToString();
             if (selectedStatus == "")
             {
-                MessageBox.Show("Выберите новый статус");
+                MessageBox.Show("Выберите новый статус", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             try
@@ -56,11 +47,12 @@ namespace WorkJournal.Forms
             }
             catch
             {
-                MessageBox.Show("Что-то пошло не так");
+                MessageBox.Show("Что-то пошло не так", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-            MessageBox.Show("Успешно!");
+            MessageBox.Show("Успешно!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             Close();
+            journalWindow.FillData();
             return;
         }
     }

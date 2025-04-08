@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:WorkJournal.Forms"
              StartupUri="Forms/MainWindow.xaml">
     <Application.Resources>
-         
+       
     </Application.Resources>
 </Application>

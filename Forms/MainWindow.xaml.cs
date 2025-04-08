@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Npgsql;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WorkJournal.Classses;
-using Npgsql;
 
 namespace WorkJournal.Forms
 {
@@ -44,12 +31,12 @@ namespace WorkJournal.Forms
             string passwordStr = password.Password;
             if (loginStr == "")
             {
-                MessageBox.Show("Не введен логин");
+                MessageBox.Show("Не введен логин", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             if (passwordStr == "")
             {
-                MessageBox.Show("Не введен пароль");
+                MessageBox.Show("Не введен пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             (string, string) userInfo = ("", "");
@@ -59,14 +46,14 @@ namespace WorkJournal.Forms
             }
             catch
             {
-                MessageBox.Show("Произошла ошибка! Обратитесь к администратору");
+                MessageBox.Show("Произошла ошибка! Обратитесь к администратору", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             string userName = userInfo.Item1;
             string userType = userInfo.Item2;
             if (userType == "")
             {
-                MessageBox.Show("Неправильный логин или пароль!");
+                MessageBox.Show("Неправильный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             JournalWindow window = new JournalWindow(userType, userName);

@@ -1,9 +1,7 @@
-﻿using System;
-using Npgsql;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorkJournal.Classses
 {
@@ -35,7 +33,7 @@ namespace WorkJournal.Classses
                         {
                             connection.Close();
                         }
-                        connection.Dispose(); 
+                        connection.Dispose();
                         connection = null;
                     }
                 }
@@ -91,11 +89,12 @@ namespace WorkJournal.Classses
             return (userName, userType);
         }
 
-        public List<string> GetAllDepartmentsName()
+        public List<string> GetAllConstuctorDepartmentsName()
         {
             List<string> res = new List<string>();
-            List<List<string>> response = GetDataFromDatabase("select name from \"Departments\" ", 1);
-            foreach(List<string> department in response)
+            List<List<string>> response = GetDataFromDatabase("select d.name from \"Departments\" d left join \"Users\" u on d.id = u.dep_id " +
+                                                              "where u.type = 'constructor'", 1);
+            foreach (List<string> department in response)
             {
                 res.Add(department[0]);
             }
@@ -105,6 +104,12 @@ namespace WorkJournal.Classses
         public string GetUserId(string userName)
         {
             List<List<string>> response = GetDataFromDatabase("select id from \"Users\" where name = '" + userName + "'", 1);
+            return response[0][0];
+        }
+
+        public string GetUserType(string userName)
+        {
+            List<List<string>> response = GetDataFromDatabase("select type from \"Users\" where name = '" + userName + "'", 1);
             return response[0][0];
         }
 
@@ -131,30 +136,37 @@ namespace WorkJournal.Classses
             return res;
         }
 
-        public string GetDep_id(string userName)
+        public string GetDep_idFromUserName(string userName)
         {
             List<List<string>> tmp = GetDataFromDatabase("select dep_id from \"Users\" where name ='" + userName + "'", 1);
             return tmp[0][0];
         }
 
-        public List<(string text, string answer_id)> GetAnswer(string userName)
+        public string GetDep_idFromDepName(string depName)
         {
-            List<List<string>> tmp = GetDataFromDatabase("select ans.answer, ans.id from \"Requests\" req, \"Answers\" ans " +
-                "                                         where req.status = 'solved' and ans.request_id = req.id and req.technolog_id =" +
-                                                          GetUserId(userName) + " and ans.time = (select max(time)" +
-                                                          " from \"Answers\" ans2 where ans2.request_id = ans.request_id)", 2);
-            List<(string text, string answer_id)> res = new List<(string text, string answer_id)>();
-            foreach (List<string> ans in tmp)
-            {
-                res.Add((ans[0], ans[1]));
-            }
-            return res;
+            List<List<string>> tmp = GetDataFromDatabase("select id from \"Departments\" where name ='" + depName + "'", 1);
+            return tmp[0][0];
         }
+
+        public string GetDepName(string dep_id)
+        {
+            List<List<string>> tmp = GetDataFromDatabase("select name from \"Departments\" where id ='" + dep_id + "'", 1);
+            return tmp[0][0];
+        }
+
+
 
         public string GetRequestId(string answer_id)
         {
             List<List<string>> tmp = GetDataFromDatabase("select req.id from \"Requests\" req, \"Answers\" ans " +
                 "                                         where ans.request_id = req.id and ans.id=" + answer_id, 1);
+            return tmp[0][0];
+        }
+
+        public string GetAnswerId(string answer, string time)
+        {
+            List<List<string>> tmp = GetDataFromDatabase("select id from \"Answers\" " +
+                "                                         where answer = '" + answer + "' and time = '" + time + "'", 1);
             return tmp[0][0];
         }
 
@@ -198,16 +210,16 @@ namespace WorkJournal.Classses
 
         public void AddNewQuestion(string doc_id, string questionText, string dep_id, string technolog_id, string time)
         {
-            string query = "insert into \"Requests\"(id, doc_id, question, dep_id, status, technolog_id, time) values(" +
-                            "(select max(id) from \"Requests\")+1, " + doc_id + ",'" + questionText + "'," + dep_id + ",'created'," + technolog_id + ",'" + time + "')";
+            string query = "insert into \"Requests\"(doc_id, question, dep_id, status, technolog_id, time) values(" +
+                            doc_id + ",'" + questionText + "'," + dep_id + ",'created'," + technolog_id + ",'" + time + "')";
             SentRequestToDatabase(query);
             return;
         }
 
         public void AddNewAnswer(string request_id, string constructor_id, string time, string answerText)
         {
-            string query = "insert into \"Answers\" (id, constructor_id, answer, time, request_id) values(" +
-                            "(select max(id) from \"Answers\")+1," + constructor_id + ",'" + answerText + "','" + time + "',"
+            string query = "insert into \"Answers\" (constructor_id, answer, time, request_id) values(" +
+                            constructor_id + ",'" + answerText + "','" + time + "',"
                             + request_id + "); update \"Requests\" set status = 'solved' where id = " + request_id;
             SentRequestToDatabase(query);
             return;

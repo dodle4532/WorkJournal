@@ -7,12 +7,11 @@
         mc:Ignorable="d"
         Title="Вход" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="Введите логин и пароль" Margin="231,47,0,0" Height="60" Width="342" FontSize="30" Cursor="AppStarting" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox x:Name="login" HorizontalAlignment="Left" Height="46" Margin="246,176,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="327" FontSize="20" VerticalContentAlignment="Center"/>
-        <Label Content="Логин" HorizontalAlignment="Left" Margin="147,183,0,0" VerticalAlignment="Top" Height="39" Width="68" FontSize="20"/>
-        <Label x:Name ="passwordLabel" Content="Пароль" HorizontalAlignment="Left" Margin="147,259,0,0" VerticalAlignment="Top" Height="39" Width="81" FontSize="20"/>
+        <Label Content="Введите логин и пароль" Margin="223,73,0,0" Height="60" Width="375" FontSize="30" Cursor="AppStarting" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="login" HorizontalAlignment="Left" Height="46" Margin="246,176,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="327" FontSize="20" VerticalContentAlignment="Center" FontWeight="Bold"/>
+        <Label Content="Логин" HorizontalAlignment="Left" Margin="147,183,0,0" VerticalAlignment="Top" Height="39" Width="81" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name ="passwordLabel" Content="Пароль" HorizontalAlignment="Left" Margin="147,259,0,0" VerticalAlignment="Top" Height="39" Width="94" FontSize="20" FontWeight="Bold"/>
         <PasswordBox x:Name="password" HorizontalAlignment="Left" Margin="246,251,0,0" VerticalAlignment="Top" Height="47" Width="327" FontSize="20" VerticalContentAlignment="Center"/>
-        <Button x:Name="enterButton" Content="Войти" HorizontalAlignment="Left" Margin="268,318,0,0" VerticalAlignment="Top" Width="255" Height="55" FontSize="20" Click="Button_Click"/>
-
+        <Button x:Name="enterButton" Content="Войти" HorizontalAlignment="Left" Margin="268,318,0,0" VerticalAlignment="Top" Width="255" Height="55" FontSize="20" Click="Button_Click" FontWeight="Bold"/>
     </Grid>
 </Window>

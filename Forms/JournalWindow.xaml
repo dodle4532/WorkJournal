@@ -14,7 +14,7 @@
             <MenuItem Header="Файл" ></MenuItem>
             <MenuItem Header="Редактировать"></MenuItem>
         </Menu>
-        <DataGrid x:Name="dataGrid" CanUserAddRows="False" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,22,-0.4,0"  VerticalAlignment="Stretch" FontSize="16" ItemsSource="{Binding RequestData}">
+        <DataGrid x:Name="dataGrid" BeginningEdit="MyDataGrid_BeginningEdit" CanUserAddRows="False" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,22,-0.4,0"  VerticalAlignment="Stretch" FontSize="16" ItemsSource="{Binding RequestData}">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{Binding RowBackground}"/>
@@ -37,7 +37,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Технолог" Binding="{Binding Technologist}"/>
+                <DataGridTextColumn Header="Технолог" Binding="{Binding Technolog}"/>
                 <DataGridTextColumn Header="Время вопроса" Binding="{Binding QuestionTime}"/>
                 <DataGridTextColumn Header="Конструктор" Binding="{Binding Constructor}"/>
                 <DataGridTextColumn Header="Ответ" Binding="{Binding Answer}" MaxWidth="300">
@@ -52,7 +52,7 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Время ответа" Binding="{Binding AnswerTime}"/>
-                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" MaxWidth="300"/>
+                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
