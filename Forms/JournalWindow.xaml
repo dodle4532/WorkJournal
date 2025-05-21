@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkJournal.Forms"
         mc:Ignorable="d"
-        Title="JournalWindow" WindowState="Maximized" Height="760.2" Width="1096.079">
+        Title="Журнал" WindowState="Maximized" Height="760.2" Width="1096.079">
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top" >
             <Menu.ContextMenu>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkJournal.Forms"
         mc:Ignorable="d"
-        Title="ChangeStatusForm" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Изменение статуса" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="Выберите вопрос" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="174,61,0,0" VerticalAlignment="Top" Height="66" Width="185" FontSize="20" FontWeight="Bold"/>
         <ComboBox x:Name="questionComboBox" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="458,82,0,0" VerticalAlignment="Top" Width="130" Height="30" FontSize="20" RenderTransformOrigin="0.44,5.227"/>

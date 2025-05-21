@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkJournal.Forms"
         mc:Ignorable="d"
-        Title="QuestionChangeForm" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+        Title="Просмотр вопроса" Height="600" Width="900" WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl x:Name="tabControl">
             <TabItem Header="Вопрос" FontWeight="Bold" FontSize="16">
