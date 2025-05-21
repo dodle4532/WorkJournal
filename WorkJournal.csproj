@@ -103,7 +103,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\MainWindow.xaml">
+    <Page Include="Forms\AuthorizationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -121,8 +121,8 @@
     <Compile Include="Forms\JournalWindow.xaml.cs">
       <DependentUpon>JournalWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Forms\AuthorizationWindow.xaml.cs">
+      <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Forms\ChangeQuestionForm.xaml">

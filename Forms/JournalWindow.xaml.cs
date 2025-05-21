@@ -164,7 +164,7 @@ namespace WorkJournal.Forms
 
         private void Relogin(object sender, RoutedEventArgs e)
         {
-            MainWindow w = new MainWindow();
+            AuthorizationWindow w = new AuthorizationWindow();
             Close();
             return;
         }

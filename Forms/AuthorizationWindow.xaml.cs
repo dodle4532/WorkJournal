@@ -5,13 +5,13 @@ using WorkJournal.Classses;
 namespace WorkJournal.Forms
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AuthorizationWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AuthorizationWindow : Window
     {
         private DatabaseHelper databaseHelper;
 
-        public MainWindow()
+        public AuthorizationWindow()
         {
             try
             {
